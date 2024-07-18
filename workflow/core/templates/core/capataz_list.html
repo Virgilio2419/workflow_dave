@@ -1,0 +1,36 @@
+{% extends 'core/base.html' %}
+
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="mb-4">Lista de Capataces</h1>
+  <a href="{% url 'capataz_create' %}" class="btn btn-primary mb-3">Crear Capataz</a>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Run</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Apellido Paterno</th>
+          <th scope="col">Apellido Materno</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for capataz in capataces %}
+          <tr>
+            <td>{{ capataz.Run_capataz }}</td>
+            <td>{{ capataz.nombres_capataz }}</td>
+            <td>{{ capataz.ap_pat_capataz }}</td>
+            <td>{{ capataz.ap_mat_capataz }}</td>
+            <td>
+              <a href="{% url 'capataz_update' capataz.pk %}" class="btn btn-sm btn-warning">Editar</a>
+              <a href="{% url 'capataz_delete' capataz.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

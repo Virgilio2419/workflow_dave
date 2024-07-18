@@ -1,0 +1,77 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+{% if messages %}
+  <div class="container mt-3">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+<div class="container mt-5">
+  <h1 class="mb-4">Lista de Tareas</h1>
+  <a href="{% url 'tarea_create' %}" class="btn btn-primary btn-auto mb-3">Nueva tarea</a>
+  <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">ID_Tarea</th>
+          <th scope="col">Nombre de Tarea</th>
+          <th scope="col">Trabajador</th>
+          <th scope="col">Obra</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Unidad</th>
+          <th scope="col">Valor</th>
+          <th scope="col">Fecha de Inicio</th>
+          <th scope="col">Fecha Reasignado</th>
+          <th scope="col">Fecha Finalizado</th>
+          <th scope="col">Unidades efectivas</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for tarea in tareas %}
+          <tr>
+            <td>{{ tarea.codigo_tarea }}</td>
+            <td>{{ tarea.nombre_tarea }}</td>
+            <td>{{ tarea.trabajador }}</td>
+            <td>{{ tarea.id_obra }}</td>
+            <td>{{ tarea.cantidad }}</td>
+            <td>{{ tarea.get_unidad_media_display }}</td>
+            <td>{{ tarea.valor }}</td>
+            <td>{{ tarea.fecha_ini }}</td>
+            <td>{% if tarea.fecha_reasign %}{{ tarea.fecha_reasign }}{% endif %}</td>
+            <td>{{ tarea.fecha_finalizado }}</td>
+            <td>{% if tarea.unidades_efectivas %}{{ tarea.unidades_efectivas }}{% endif %}</td>
+            <td>
+              <a href="{% url 'tarea_update' tarea.pk %}" class="btn btn-sm btn-warning">Editar</a>
+              <a href="{% url 'tarea_reasignar' tarea.pk %}" class="btn btn-sm btn-primary">Reasignar</a>
+              <a href="{% url 'tarea_delete' tarea.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+              <form id="form-terminar-{{ tarea.pk }}" action="{% url 'tarea_terminar' tarea.pk %}" method="POST" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-success" onclick="return confirmarTerminar({{ tarea.pk }})">Terminar</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  function confirmarTerminar(tareaId) {
+    return confirm('¿Estás seguro de terminar esta tarea?');
+  }
+  </script>
+
+<script>
+  function confirmarTerminar(tareaId) {
+    if (confirm('¿Estás seguro de terminar esta tarea?')) {
+      document.getElementById('form-terminar-' + tareaId).submit();
+    }
+  }
+  </script>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+
+
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="mb-4">Lista de Obras</h1>
+  <a href="{% url 'obra_create' %}" class="btn btn-primary mb-3">Crear Obra</a>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Nombre de la Obra</th>
+          <th scope="col">Dirección</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for obra in obras %}
+          <tr>
+            <td>{{ obra.nombre_obra }}</td>
+            <td>{{ obra.direccion_obra }}</td>
+            <td>
+              <a href="{% url 'obra_update' obra.pk %}" class="btn btn-sm btn-warning">Editar</a>
+              <a href="{% url 'obra_delete' obra.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Bienvenido al Workflow de Construcción{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="mb-4">Lista de Supervisores</h1>
+  <a href="{% url 'supervisor_create' %}" class="btn btn-primary mb-3">Crear Supervisor</a>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Run</th>
+          <th scope="col">Nombres</th>
+          <th scope="col">Apellido Paterno</th>
+          <th scope="col">Apellido Materno</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for supervisor in supervisores %}
+          <tr>
+            <td>{{ supervisor.Run_supervisor }}</td>
+            <td>{{ supervisor.nombres_supervisor }}</td>
+            <td>{{ supervisor.ap_pat_supervisor }}</td>
+            <td>{{ supervisor.ap_mat_supervisor }}</td>
+            <td>
+              <a href="{% url 'supervisor_update' supervisor.pk %}" class="btn btn-sm btn-warning">Editar</a>
+              <a href="{% url 'supervisor_delete' supervisor.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
